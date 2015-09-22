@@ -6,6 +6,6 @@
 namespace Clustering {
     Cluster::Cluster(const Cluster &cluster)
     {
-        if(cluster.points)
+
     }
 }

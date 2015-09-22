@@ -5,27 +5,28 @@
 #include <cmath>
 #include "Point.h"
 namespace Clustering {
+    // constructor
     Point::Point(int x) {
         dim = x;
     }
-
+    //2nd constructor with dimensions
     Point::Point(int x, double *myArray) {
         dim = x;
         values = new double[sizeof(myArray)];
         std::copy(myArray, myArray + dim, values);
     }
-
+    //destructor, deletes dimensions
     Point::~Point() {
         delete[]values;
     }
-
+    // overloaded copy constructor
     Point::Point(const Point &point) {
         dim = point.dim;
         for(int i = 0; i < point.dim; i++) {
             values[i] = point.values[i];
         }
     }
-
+    // overloaded assignment operator
     Point &Point::operator=(const Point &point) {
         if (this == &point)
             return *this;
@@ -35,16 +36,16 @@ namespace Clustering {
 
         return *this;
     }
-
+    // setvalues to individual values of x
     void Point::setValue(int x, double d) {
         values[x] = d;
     }
-
+    //gets values
     double Point::getValue(int x) const {
         return values[x];
     }
 
-//uses cmath
+//uses cmath, calculates distance between 2 points, should be same dimension
     double Point::distanceTo(const Point &point1, const Point &point2) const {
         double sum = 0;
         double distance;
@@ -54,7 +55,7 @@ namespace Clustering {
         distance = sqrt(sum);
         return distance;
     }
-
+//overloaded multiplication, does not work
     Point &Point::operator*=(double d) {
         Point result = *this;
         for (int i = 0; i < dim; i++) {
@@ -70,7 +71,7 @@ namespace Clustering {
         }
         return result;
     }
-
+    //overloaded output opperator
     std::ostream &operator<<(std::ostream &ostream, const Point &point)
     {
         int i = 0;
@@ -83,7 +84,7 @@ namespace Clustering {
         return ostream;
     }
 
-
+    //overloaded division, does not work
     Point &Point::operator/=(double d)
     {
         Point result = *this;
@@ -104,7 +105,7 @@ namespace Clustering {
         }
         return result;
     }
-
+    //overloaded addition
     Point &operator+=(Point &point, const Point &point1)
     {
         for(int i = 0; i < point.dim; i++)
@@ -122,7 +123,7 @@ namespace Clustering {
         }
         return point;
     }
-
+    //overloaded subtraction
     Point &operator-=(Point &point, const Point &point1)
     {
         for(int i = 0; i < point.dim; i++)
@@ -140,7 +141,7 @@ namespace Clustering {
         }
         return point;
     }
-
+    //overloaded equality
     bool operator==(const Point &point, const Point &point1)
     {
         for(int i = 0; i < point.dim; i++)
@@ -160,7 +161,7 @@ namespace Clustering {
         }
         return false;
     }
-
+    //overlaoded comparisons, basically they are all the same
     bool operator<(const Point &point, const Point &point1)
     {
         for(int i = 0; i < point.dim; i++)
@@ -200,6 +201,7 @@ namespace Clustering {
         }
         return false;
     }
+    //not sure how this works or why I needed it, so commented out for now
 /*
     std::istream &operator>>(std::istream &istream, Point &point)
     {
