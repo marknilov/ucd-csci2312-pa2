@@ -30,10 +30,12 @@ namespace Clustering {
     Point &Point::operator=(const Point &point) {
         if (this == &point)
             return *this;
-
-        dim = point.dim;
-        values = point.values;
-
+        else {
+            dim = point.dim;
+            for(int i = 0; i < dim; i++) {
+                values[i] = point.values[i];
+            }
+        }
         return *this;
     }
     // setvalues to individual values of x
@@ -55,21 +57,21 @@ namespace Clustering {
         distance = sqrt(sum);
         return distance;
     }
-//overloaded multiplication, does not work
-    Point &Point::operator*=(double d) {
-        Point result = *this;
+//overloaded multiplication
+    Point &Point::operator*=(double d)
+    {
         for (int i = 0; i < dim; i++) {
-             result.values[i] *= d;
+             values[i] *= d;
         }
-        return result;
+        return *this;
     }
 
     const Point Point::operator*(double d) const {
-        Point result = *this;
-        for (int i = 0; i < result.dim; i++) {
-            result.values[i] *= d;
+        Point temp(0);
+        for (int i = 0; i < dim; i++) {
+            values[i] *= d;
         }
-        return result;
+        return temp;
     }
     //overloaded output opperator
     std::ostream &operator<<(std::ostream &ostream, const Point &point)
@@ -87,23 +89,25 @@ namespace Clustering {
     //overloaded division, does not work
     Point &Point::operator/=(double d)
     {
-        Point result = *this;
-        for (int i = 0; i < result.dim; i++) {
-            result.values[i] /= d;
+        for (int i = 0; i < dim; i++)
+        {
+            values[i] /= d;
         }
-        return result;
+        return *this;
     }
 
     const Point Point::operator/(double d) const
     {
-        if(d == 0) {
-            return *this;
+        Point temp(0);
+        if(d != 0)
+        {
+            for (int i = 0; i < dim; i++)
+            {
+                values[i] /= d;
+            }
+
         }
-            Point result = *this;
-        for (int i = 0; i < result.dim; i++) {
-            result.values[i] /= d;
-        }
-        return result;
+        return temp;
     }
     //overloaded addition
     Point &operator+=(Point &point, const Point &point1)
@@ -117,11 +121,12 @@ namespace Clustering {
 
     const Point operator+(const Point &point, const Point &point1)
     {
+        Point temp(0);
         for(int i = 0; i < point.dim; i++)
         {
             point.values[i] += point1.values[i];
         }
-        return point;
+        return temp;
     }
     //overloaded subtraction
     Point &operator-=(Point &point, const Point &point1)
@@ -135,11 +140,12 @@ namespace Clustering {
 
     const Point operator-(const Point &point, const Point &point1)
     {
+        Point temp(0);
         for(int i = 0; i < point.dim; i++)
         {
             point.values[i] -= point1.values[i];
         }
-        return point;
+        return temp;
     }
     //overloaded equality
     bool operator==(const Point &point, const Point &point1)
